@@ -8,27 +8,27 @@
                 <div style="display: flex; flex-direction:row; justify-content: center;">
                     <p style="color: black; font-size: 16px">Add Everyone Who Is Splitting The Bill</p>
                 </div>
-                <div style="display: flex; flex-direction:row; justify-content: center; padding-bottom: 5px;">
-                    <input v-model="person" hint="Enter Name" style="flex-grow:2; border: solid 2px rgb(232, 232, 232);"/>
-                    <button @click="onButtonTap" style="background-color:#068587 color:white; flex-grow:1;">Add</button>
+                <div style="display: flex; flex-direction:row; justify-content: center; padding-bottom: 0px;">
+                    <v-text-field regular v-model="person" placeholder="Enter Name" style="flex-grow:2; border: solid 2px rgb(232, 232, 232);"/>
+                    <v-btn @click="onButtonTap" style="background-color:#068587; color:white; flex-grow:1;">Add</v-btn>
                 </div>
                 
-                <div style="border-width: 2px; border-color: rgb(232, 232, 232); min-height:300px; background-color:white;">
+                <div style="border-width: 2px; border-color: rgb(232, 232, 232); min-height:300px; background-color:white; padding-bottom: 10px;">
                     <!-- <v-template> -->
-                        <div v-for="person in $store.state.people" style="display: flex; flex-direction:row; justify-content: space-between; height: 22px; border-bottom: 3px solid rgb(232, 232, 232);">
+                        <div v-for="person in $store.state.people" style="display: flex; flex-direction:row; justify-content: space-between; border-bottom: 3px solid rgb(232, 232, 232); margin: 7px;">
 
-                            <p class="personListed" style="padding: 0px; margin: 0px;">{{ person.name }}</p>
-                            <button @click="removePerson(person.name)" style="color: white; font-size: 12; font-weight: bold; background-color:#f2b134;">
+                            <p class="personListed" style="padding: 0px; margin: 0px; font-size: 26px;">{{ person.name }}</p>
+                            <v-btn @click="removePerson(person.name)" style="color: white; font-size: 12; font-weight: bold; background-color:#f2b134; height: 28px; padding: 0px; margin: 5px;">
                               X
-                            </button>
+                            </v-btn>
 
                         </div>
                     <!-- </v-template> -->
                 </div>
                 <div style="display: flex; flex-direction:row; justify-content: center">
-                  <button @click="nextScreen" style="background-color: rgb(86, 86, 86); color: white; flex-grow:1; margin: 5px; padding: 5px;">
+                  <v-btn @click="nextScreen" style="background-color: rgb(86, 86, 86); color: white; flex-grow:1; margin: 10px; padding: 0px;">
                     That's Everyone!
-                  </button>
+                  </v-btn>
                 </div>
             </div>
         </div>

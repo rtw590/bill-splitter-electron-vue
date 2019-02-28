@@ -28,6 +28,12 @@ export default new Vuex.Store({
             subtotal: 0
         }
       )
+    },
+    removePerson (state, personToRemove) {
+      let newArray = state.people.filter(function (person) {
+          return person.name != personToRemove;
+      });
+      state.people = newArray
     }
   },
   actions: {
