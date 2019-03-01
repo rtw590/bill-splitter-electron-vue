@@ -34,6 +34,17 @@ export default new Vuex.Store({
           return person.name != personToRemove;
       });
       state.people = newArray
+    },
+    makePersonActive (state, person) {
+      state.people.forEach(function(element) {
+        if(element.name == person){
+            if(element.isActive == false){
+                element.isActive = true
+            } else {
+                element.isActive = false
+            }
+        }
+    });
     }
   },
   actions: {

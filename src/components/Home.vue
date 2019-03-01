@@ -10,7 +10,7 @@
                     <p style="color: black; font-size: 16px">Add Everyone Who Is Splitting The Bill</p>
                 </div>
                 <div style="display: flex; flex-direction:row; justify-content: center; padding-bottom: 5px;">
-                    <v-text-field regular hide-details v-model="person" placeholder="Enter Name" style="flex-grow:2; border: solid 2px rgb(232, 232, 232);"/>
+                    <v-text-field regular hide-details v-model="person" id="personInputField" v-on:keyup.enter="onButtonTap" placeholder="Enter Name" style="flex-grow:2; border: solid 2px rgb(232, 232, 232);"/>
                     <v-btn @click="onButtonTap" style="background-color:#068587; color:white; flex-grow:1;">Add</v-btn>
                 </div>
                 
@@ -54,6 +54,7 @@
                 } else {
                   this.$store.commit('addPerson', this.person)
                   this.person = ''
+                  document.getElementById("personInputField").focus();
                 } 
             }
         },
