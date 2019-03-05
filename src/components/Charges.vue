@@ -7,7 +7,7 @@
         <div style="padding-top: 20px;; padding-left:20px; padding-right:20px; padding-bottom: 20px;max-width: 600px; margin: 0 auto;">
             <div style="border-width: 2px; border-color: rgb(209, 209, 209); border-radius: 5px; background-color:rgb(232, 232, 232); padding-left:5px; padding-right:5px;" >
                 <div style="display: flex; flex-direction:row; justify-content: center;">
-                    <p style="color: black; font-size: 16px; margin: 0px; padding: 0px;">Charges Page</p>
+                    <p style="color: black; font-size: 16px; margin: 0px; padding: 0px; text-align: center;">Charges Page</p>
                 </div>
                 <div style="display: flex; flex-direction:column; justify-content: center; padding-bottom: 5px;">
                     <v-text-field regular hide-details v-model="chargeName" placeholder="Bill Item Name (Optional)" style="flex-grow:1; border: solid 2px rgb(232, 232, 232);"/>
@@ -29,10 +29,13 @@
 
                 <div style="display: flex; flex-direction:column; justify-content: center">
                     <!-- <Button text="Add Item" @tap="addItem" flexGrow="1" style="background-color: #068587; color: white;" /> -->
-                    <v-btn @click="addItem" style="background-color: #068587; color: white; flex-grow:1; margin: 10px; padding: 0px;">
+                    <v-btn @click="addItem" style="background-color: #068587; color: white; flex-grow:1; margin: 5px; padding: 0px;">
                         Add Item
                     </v-btn>
-                    <v-btn to="/" style="background-color: rgb(86, 86, 86); color: white; flex-grow:1; margin: 10px; padding: 0px;">
+                    <v-btn @click="nextScreen" style="background-color: #ed553b; color: white; flex-grow:1; margin: 5px; padding: 0px;">
+                        Done Adding Items
+                    </v-btn>
+                    <v-btn to="/" style="background-color: rgb(86, 86, 86); color: white; flex-grow:1; margin: 5px; padding: 0px;">
                         Back
                     </v-btn>
                 </div>
@@ -57,15 +60,6 @@
         },
         makePersonActive(person) {
             this.$store.commit('makePersonActive', person)
-            // this.$store.state.people.forEach(function(element) {
-            //     if(element.name == person){
-            //         if(element.isActive == false){
-            //             element.isActive = true
-            //         } else {
-            //             element.isActive = false
-            //         }
-            //     }
-            // });
         },
         addItem() {
             if(this.chargeAmount == ''){
@@ -101,7 +95,8 @@
 
                     amountToCharge = (this.chargeAmount / peopleToChargeTo.length).toFixed(2)
 
-                    this.$store.state.chargesPrimaryKey++
+                    // this.$store.state.chargesPrimaryKey++
+                    this.$store.commit('increasePrimaryKey')
 
                     // Check if chargeName is blank and if so give it a name
                     if(this.chargeName == ''){
@@ -110,16 +105,16 @@
                         console.log(this.chargeName)
                     }
 
-
-                    this.$store.state.charges.push(
-                        {
+                    let chargeDetails = {
                             id: this.$store.state.chargesPrimaryKey,
                             itemName: this.chargeName,
                             itemAmount: this.chargeAmount,
                             peopleToChargeTo: peopleToChargeTo,
                             amountToCharge: amountToCharge
                         }
-                    )
+
+                    this.$store.commit('newCharge', chargeDetails)
+
 
                     // Add charge object to everyone in the array
                     // let arrayFromStore = this.$store.state.people
@@ -127,24 +122,38 @@
                     let id = this.$store.state.chargesPrimaryKey
                     let individualItemName = this.chargeName
 
-                    peopleToChargeTo.forEach(function(personToBeCharged) {
-                        arrayFromStore.forEach(function(personInStore) {
+                    peopleToChargeTo.forEach((personToBeCharged) => {
+                        arrayFromStore.forEach((personInStore) => {
                             if(personToBeCharged == personInStore.name){
-                                personInStore.individualCharges.push(
-                                    {
+                                let individualChargeDetails = {
                                         id: id,
                                         itemName: individualItemName,
                                         amountToCharge: amountToCharge
                                     }
-                                )
+                                let payload = {personInStore, individualChargeDetails}
+                                this.$store.commit('newIndividualCharge', payload)
+
+
+                                // personInStore.individualCharges.push(
+                                //     {
+                                //         id: id,
+                                //         itemName: individualItemName,
+                                //         amountToCharge: amountToCharge
+                                //     }
+                                // )
+
+
                             }
+
+
                         })
                     });
 
                     // Clear out all values to start fresh on new item
-                    this.$store.state.people.forEach(function(element) {
-                        element.isActive = false
-                    });
+                    // this.$store.state.people.forEach(function(element) {
+                    //     element.isActive = false
+                    // });
+                    this.$store.commit('deactivateEveryone')
                     this.chargeName = ''
                     this.chargeAmount = ''
                     peopleToChargeTo = []
@@ -152,8 +161,7 @@
             }
         },
         nextScreen() {
-            console.log('Next screen pressed')
-            this.$navigateTo(TaxesAndTip);
+            this.$router.push('/taxesandtip')
         },
     },
     data() {

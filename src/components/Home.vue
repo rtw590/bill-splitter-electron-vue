@@ -7,7 +7,7 @@
         <div style="padding-top: 20px;; padding-left:20px; padding-right:20px; padding-bottom: 20px;max-width: 600px; margin: 0 auto;">
             <div style="border-width: 2px; border-color: rgb(209, 209, 209); border-radius: 5px; background-color:rgb(232, 232, 232); padding-left:5px; padding-right:5px;" >
                 <div style="display: flex; flex-direction:row; justify-content: center;">
-                    <p style="color: black; font-size: 16px">Add Everyone Who Is Splitting The Bill</p>
+                    <p style="color: black; font-size: 16px; text-align: center;">Add Everyone Who Is Splitting The Bill</p>
                 </div>
                 <div style="display: flex; flex-direction:row; justify-content: center; padding-bottom: 5px;">
                     <v-text-field regular hide-details v-model="person" id="personInputField" v-on:keyup.enter="onButtonTap" placeholder="Enter Name" style="flex-grow:2; border: solid 2px rgb(232, 232, 232);"/>
@@ -60,6 +60,7 @@
         },
         removePerson: function(personToRemove) {
             this.$store.commit('removePerson', personToRemove)
+            document.getElementById("personInputField").focus();
         },
         nextScreen() {
             console.log('Next screen hit')
